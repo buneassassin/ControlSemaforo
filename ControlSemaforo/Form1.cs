@@ -77,15 +77,22 @@ namespace ControlSemaforo
             {
                 historial.BeginInvoke((MethodInvoker)delegate
                 {
-                    historial.Items.Add(outputMessage);
-                    historial.Items.Add("---------------------------------");
+                    AddItemToListBox(outputMessage);
                 });
             }
             else
             {
-                historial.Items.Add(outputMessage);
-                historial.Items.Add("---------------------------------");
+                AddItemToListBox(outputMessage);
             }
+        }
+
+        private void AddItemToListBox(string message)
+        {
+            historial.Items.Add(message);
+            historial.Items.Add("---------------------------------------------------------------");
+
+            // Desplaza automaticamente el final
+            historial.TopIndex = historial.Items.Count - 1;
         }
 
         private void LoadSemaforosConfig()
