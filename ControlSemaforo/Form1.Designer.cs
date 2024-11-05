@@ -120,7 +120,6 @@
             dataGridViewSemaforos.RowHeadersWidth = 51;
             dataGridViewSemaforos.Size = new Size(551, 125);
             dataGridViewSemaforos.TabIndex = 6;
-            dataGridViewSemaforos.CellContentClick += dataGridView1_CellContentClick;
             // 
             // semaforo
             // 
@@ -166,7 +165,6 @@
             Acciones.TabIndex = 7;
             Acciones.TabStop = false;
             Acciones.Text = "Acciones";
-            Acciones.Enter += groupBox1_Enter;
             // 
             // Hola
             // 
@@ -181,7 +179,6 @@
             Controls.Add(listBox1);
             Name = "Hola";
             Text = "Form1";
-            Load += Hola_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSemaforos).EndInit();
             Acciones.ResumeLayout(false);

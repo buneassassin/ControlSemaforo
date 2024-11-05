@@ -197,21 +197,6 @@ namespace ControlSemaforo
                 }
             }
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Este método puede ser utilizado si necesitas manejar clics en el DataGridView
-        }
-
-        private void Hola_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
     }
 
     public class SemaforoConfig
