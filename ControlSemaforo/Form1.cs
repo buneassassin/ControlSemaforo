@@ -39,7 +39,8 @@ namespace ControlSemaforo
 
                 string sensorName = partes[0];
                 string sensorNum = partes[1];
-                string valor = partes[2];
+                string valor = partes[2].Trim();
+
 
                 UpdateListBox(sensorName, sensorNum, valor);
             }
@@ -72,18 +73,18 @@ namespace ControlSemaforo
                 outputMessage = $"Sensor ultrasónico {sensorNum} - {estado}.";
             }
 
-            if (listBox1.InvokeRequired)
+            if (historial.InvokeRequired)
             {
-                listBox1.BeginInvoke((MethodInvoker)delegate
+                historial.BeginInvoke((MethodInvoker)delegate
                 {
-                    listBox1.Items.Add(outputMessage);
-                    listBox1.Items.Add("---------------------------------");
+                    historial.Items.Add(outputMessage);
+                    historial.Items.Add("---------------------------------");
                 });
             }
             else
             {
-                listBox1.Items.Add(outputMessage);
-                listBox1.Items.Add("---------------------------------");
+                historial.Items.Add(outputMessage);
+                historial.Items.Add("---------------------------------");
             }
         }
 
