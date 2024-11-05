@@ -67,10 +67,10 @@ namespace ControlSemaforo
 
                 string estado = valor == "1" ? "encendido" : "apagado";
 
-                outputMessage = $"Semaforo {sensorNum} - LED {color} está {estado}.";
+                outputMessage = $"Semaforo {sensorNum + 1} - LED {color} está {estado}.";
             }else if(sensorName == "SON"){
                 string estado = valor == "1" ? "detectado" : "no detectado";
-                outputMessage = $"Sensor ultrasónico {sensorNum} - {estado}.";
+                outputMessage = $"Sensor ultrasónico {sensorNum + 1} - {estado}.";
             }
 
             if (historial.InvokeRequired)
@@ -140,35 +140,6 @@ namespace ControlSemaforo
             if (serialPort.IsOpen)
             {
                 serialPort.Close();
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (serialPort.IsOpen)
-            {
-                int semaforo;
-                string color;
-
-                if (int.TryParse(Interaction.InputBox("Ingrese el número de semáforo:", "Encender LED"), out semaforo) &&
-                    semaforo >= 0 && semaforo < semaforosConfig.Count)
-                {
-                    color = Interaction.InputBox("Ingrese el color (R, A, V):", "Encender LED").ToUpper();
-                    if (color == "R" || color == "A" || color == "V")
-                    {
-                        serialPort.WriteLine(semaforo.ToString() + color);
-                        MessageBox.Show($"LED {color} del semáforo {semaforo} encendido.");
-                        button2.Enabled = false;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Color no válido. Usa R, A, o V.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Número de semáforo no válido.");
-                }
             }
         }
 
