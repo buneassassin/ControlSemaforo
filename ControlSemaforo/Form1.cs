@@ -35,7 +35,13 @@ namespace ControlSemaforo
             try
             {
                 string message = serialPort.ReadLine();
-                UpdateListBox(message);
+                string[] partes =  message.Split(':');
+
+                string sensorName = partes[0];
+                string sensorNum = partes[1];
+                string valor = partes[2];
+
+                UpdateListBox(sensorName, sensorNum, valor);
             }
             catch (Exception ex)
             {
@@ -43,19 +49,40 @@ namespace ControlSemaforo
             }
         }
 
-        private void UpdateListBox(string message)
+        private void UpdateListBox(string sensorName, string sensorNum, string valor)
         {
+            string outputMessage = "";
+
+            if (sensorName.StartsWith("LE"))
+            {
+
+                string color = sensorName switch
+                {
+                    "LER" => "Rojo",
+                    "LEV" => "Verde",
+                    "LEA" => "Amarillo",
+                    _ => "Desconocido"
+                };
+
+                string estado = valor == "1" ? "encendido" : "apagado";
+
+                outputMessage = $"Semaforo {sensorNum} - LED {color} está {estado}.";
+            }else if(sensorName == "SON"){
+                string estado = valor == "1" ? "detectado" : "no detectado";
+                outputMessage = $"Sensor ultrasónico {sensorNum} - {estado}.";
+            }
+
             if (listBox1.InvokeRequired)
             {
                 listBox1.BeginInvoke((MethodInvoker)delegate
                 {
-                    listBox1.Items.Add(message);
+                    listBox1.Items.Add(outputMessage);
                     listBox1.Items.Add("---------------------------------");
                 });
             }
             else
             {
-                listBox1.Items.Add(message);
+                listBox1.Items.Add(outputMessage);
                 listBox1.Items.Add("---------------------------------");
             }
         }
