@@ -79,11 +79,13 @@ namespace ControlSemaforo
             {
                 historial.BeginInvoke((MethodInvoker)delegate
                 {
+                    valorActual.Text = outputMessage;
                     AddItemToListBox(outputMessage);
                 });
             }
             else
             {
+                valorActual.Text = outputMessage;
                 AddItemToListBox(outputMessage);
             }
         }

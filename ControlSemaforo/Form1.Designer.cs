@@ -38,9 +38,11 @@
             pin2 = new DataGridViewTextBoxColumn();
             pin3 = new DataGridViewTextBoxColumn();
             Acciones = new GroupBox();
-            label1 = new Label();
+            valorActual = new Label();
+            groupBox1 = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSemaforos).BeginInit();
             Acciones.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // button2
@@ -69,7 +71,7 @@
             // 
             historial.BackColor = SystemColors.Info;
             historial.FormattingEnabled = true;
-            historial.Location = new Point(640, 69);
+            historial.Location = new Point(896, 69);
             historial.Name = "historial";
             historial.Size = new Size(414, 524);
             historial.TabIndex = 4;
@@ -90,11 +92,11 @@
             dataGridViewSemaforos.AllowUserToDeleteRows = false;
             dataGridViewSemaforos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSemaforos.Columns.AddRange(new DataGridViewColumn[] { semaforo, pin1, pin2, pin3 });
-            dataGridViewSemaforos.Location = new Point(59, 271);
+            dataGridViewSemaforos.Location = new Point(59, 277);
             dataGridViewSemaforos.Name = "dataGridViewSemaforos";
             dataGridViewSemaforos.ReadOnly = true;
             dataGridViewSemaforos.RowHeadersWidth = 51;
-            dataGridViewSemaforos.Size = new Size(554, 318);
+            dataGridViewSemaforos.Size = new Size(554, 307);
             dataGridViewSemaforos.TabIndex = 6;
             // 
             // semaforo
@@ -141,23 +143,33 @@
             Acciones.TabStop = false;
             Acciones.Text = "Acciones";
             // 
-            // label1
+            // valorActual
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(528, 150);
-            label1.Name = "label1";
-            label1.Size = new Size(50, 20);
-            label1.TabIndex = 8;
-            label1.Text = "label1";
+            valorActual.AutoSize = true;
+            valorActual.Location = new Point(39, 87);
+            valorActual.Name = "valorActual";
+            valorActual.Size = new Size(50, 20);
+            valorActual.TabIndex = 8;
+            valorActual.Text = "label1";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(valorActual);
+            groupBox1.Location = new Point(500, 69);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(379, 177);
+            groupBox1.TabIndex = 9;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Valor Actual";
             // 
             // Hola
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ScrollBar;
-            ClientSize = new Size(1067, 605);
+            ClientSize = new Size(1349, 796);
             ControlBox = false;
-            Controls.Add(label1);
+            Controls.Add(groupBox1);
             Controls.Add(Acciones);
             Controls.Add(dataGridViewSemaforos);
             Controls.Add(historial);
@@ -165,8 +177,9 @@
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridViewSemaforos).EndInit();
             Acciones.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -180,6 +193,7 @@
         private DataGridViewTextBoxColumn pin2;
         private DataGridViewTextBoxColumn pin3;
         private GroupBox Acciones;
-        private Label label1;
+        private Label valorActual;
+        private GroupBox groupBox1;
     }
 }
