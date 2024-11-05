@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
             button2 = new Button();
             button3 = new Button();
             historial = new ListBox();
@@ -43,16 +42,6 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewSemaforos).BeginInit();
             Acciones.SuspendLayout();
             SuspendLayout();
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Transparent;
-            button1.Location = new Point(208, 107);
-            button1.Name = "button1";
-            button1.Size = new Size(160, 51);
-            button1.TabIndex = 0;
-            button1.Text = "Elegir";
-            button1.UseVisualStyleBackColor = false;
             // 
             // button2
             // 
@@ -145,7 +134,6 @@
             Acciones.Controls.Add(button3);
             Acciones.Controls.Add(button2);
             Acciones.Controls.Add(buttonConfigurar_Click);
-            Acciones.Controls.Add(button1);
             Acciones.Location = new Point(59, 69);
             Acciones.Name = "Acciones";
             Acciones.Size = new Size(395, 177);
@@ -182,8 +170,6 @@
         }
 
         #endregion
-
-        private Button button1;
         private Button button2;
         private Button button3;
         private ListBox historial;

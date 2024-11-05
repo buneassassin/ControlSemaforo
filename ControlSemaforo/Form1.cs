@@ -54,6 +54,8 @@ namespace ControlSemaforo
         {
             string outputMessage = "";
 
+            int sensorIndex = int.Parse(sensorNum);
+
             if (sensorName.StartsWith("LE"))
             {
 
@@ -67,10 +69,10 @@ namespace ControlSemaforo
 
                 string estado = valor == "1" ? "encendido" : "apagado";
 
-                outputMessage = $"Semaforo {sensorNum + 1} - LED {color} está {estado}.";
+                outputMessage = $"Semaforo {sensorIndex + 1} - LED {color} está {estado}.";
             }else if(sensorName == "SON"){
                 string estado = valor == "1" ? "detectado" : "no detectado";
-                outputMessage = $"Sensor ultrasónico {sensorNum + 1} - {estado}.";
+                outputMessage = $"Sensor ultrasónico {sensorIndex + 1} - {estado}.";
             }
 
             if (historial.InvokeRequired)
@@ -150,7 +152,6 @@ namespace ControlSemaforo
                 // Envía un comando específico para iniciar el recorrido
                 serialPort.WriteLine("ON"); // Modificar el comando según lo que espera el Arduino
                 MessageBox.Show("Recorrido iniciado.");
-                button1.Enabled = false;
             }
         }
 
@@ -161,7 +162,6 @@ namespace ControlSemaforo
                 // Envía un comando específico para detener el recorrido
                 serialPort.WriteLine("OFF"); // Modificar el comando según lo que espera el Arduino
                 MessageBox.Show("Recorrido detenido.");
-                button1.Enabled = true;
                 button2.Enabled = true;
             }
         }
