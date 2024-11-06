@@ -19,15 +19,12 @@ namespace ControlSemaforo
 
             serialPort = new SerialPort
             {
-                PortName = "COM10", // Cambia esto según tu configuración
+                PortName = "COM11", // Cambia esto según tu configuración
                 BaudRate = 9600,
                 ReadTimeout = 500
             };
             serialPort.DataReceived += SerialPort_DataReceived;
             serialPort.Open();
-
-            // Cargar configuración de semáforos desde archivo JSON
-            LoadSemaforosConfig();
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -99,36 +96,7 @@ namespace ControlSemaforo
             historial.TopIndex = historial.Items.Count - 1;
         }
 
-        private void LoadSemaforosConfig()
-        {
-            if (File.Exists(configFilePath))
-            {
-                string json = File.ReadAllText(configFilePath);
-                semaforosConfig = JsonConvert.DeserializeObject<List<SemaforoConfig>>(json);
-                SendConfigToArduino();
-                MessageBox.Show("Configuración cargada.");
-                UpdateDataGridView(); // Actualiza el DataGridView
-            }
-            else
-            {
-                semaforosConfig = new List<SemaforoConfig>();
-            }
-        }
-
-        private void UpdateDataGridView()
-        {
-            dataGridViewSemaforos.Rows.Clear(); // Limpiar filas existentes
-            foreach (var semaforo in semaforosConfig)
-            {
-                dataGridViewSemaforos.Rows.Add(semaforo.Id, semaforo.Pins[0], semaforo.Pins[1], semaforo.Pins[2]);
-            }
-        }
-
-        private void SaveSemaforosConfig()
-        {
-            string json = JsonConvert.SerializeObject(semaforosConfig, Formatting.Indented);
-            File.WriteAllText(configFilePath, json);
-        }
+     
 
         private void SendConfigToArduino()
         {
@@ -168,43 +136,6 @@ namespace ControlSemaforo
             }
         }
 
-        private void buttonConfigurar_Click_Click(object sender, EventArgs e)
-        {
-            if (serialPort.IsOpen)
-            {
-                if (int.TryParse(Interaction.InputBox("Ingrese el número de semáforos:", "Configurar Semáforos"), out int numSemaforos) && numSemaforos > 0)
-                {
-                    semaforosConfig.Clear();
-                    for (int i = 0; i < numSemaforos; i++)
-                    {
-                        SemaforoConfig semaforo = new SemaforoConfig { Id = i, Pins = new int[3] };
-
-                        for (int j = 0; j < 3; j++)
-                        {
-                            string color = (j == 0) ? "Rojo" : (j == 1) ? "Amarillo" : "Verde";
-                            if (int.TryParse(Interaction.InputBox($"Ingrese el pin para el color {color} del semáforo {i + 1}:", "Configurar Pines"), out int pin))
-                            {
-                                semaforo.Pins[j] = pin;
-                            }
-                            else
-                            {
-                                MessageBox.Show("Pin no válido. Configuración cancelada.");
-                                return;
-                            }
-                        }
-                        semaforosConfig.Add(semaforo);
-                    }
-                    SaveSemaforosConfig();
-                    SendConfigToArduino();
-                    UpdateDataGridView(); // Actualiza el DataGridView
-                    MessageBox.Show($"Configuración de {numSemaforos} semáforos guardada y enviada.");
-                }
-                else
-                {
-                    MessageBox.Show("Número de semáforos no válido.");
-                }
-            }
-        }
     }
 
     public class SemaforoConfig
