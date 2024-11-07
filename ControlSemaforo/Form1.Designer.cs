@@ -61,10 +61,10 @@
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Sensor, NumeroSensor, Valor });
-            dataGridView1.Location = new Point(364, 45);
+            dataGridView1.Location = new Point(405, 45);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(429, 188);
+            dataGridView1.Size = new Size(527, 454);
             dataGridView1.TabIndex = 10;
             // 
             // Sensor
@@ -72,7 +72,7 @@
             Sensor.HeaderText = "Sensor";
             Sensor.MinimumWidth = 6;
             Sensor.Name = "Sensor";
-            Sensor.Width = 125;
+            Sensor.Width = 200;
             // 
             // NumeroSensor
             // 
@@ -86,14 +86,14 @@
             Valor.HeaderText = "Valor";
             Valor.MinimumWidth = 6;
             Valor.Name = "Valor";
-            Valor.Width = 125;
+            Valor.Width = 150;
             // 
             // Hola
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ScrollBar;
-            ClientSize = new Size(868, 566);
+            ClientSize = new Size(944, 522);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
             Name = "Hola";
