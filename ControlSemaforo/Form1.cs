@@ -52,6 +52,11 @@ namespace ControlSemaforo
             string estado = valor == "1" ? "Encendido/Detectado" : "Apagado/Nodetectado";
             string unidad = "";
 
+            if (int.TryParse(sensorNum, out int sensorNumInt))
+            {
+                sensorNumInt += 1;
+            }
+
             // Verificar si el sensor existe en los datos cargados
             if (data.Sensores.ContainsKey(sensorName))
             {
@@ -60,6 +65,7 @@ namespace ControlSemaforo
                 unidad = sensorInfo.Unidad;
             }
 
+
             string valorCantidad = $"{valor} {unidad}";
 
             if (dataGridView1.InvokeRequired)
@@ -67,7 +73,7 @@ namespace ControlSemaforo
                 dataGridView1.BeginInvoke((MethodInvoker)delegate
                 {
                     valorActual.Text = $"{descripcion} {sensorNum}: {valorCantidad}";
-                    dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valorCantidad });
+                    dataGridView1.Rows.Add(new object[] { descripcion, sensorNumInt, valorCantidad });
 
                     dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
                 });
@@ -75,7 +81,7 @@ namespace ControlSemaforo
             else
             {
                 valorActual.Text = $"{descripcion} {sensorNum}: {valorCantidad}";
-                dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valorCantidad });
+                dataGridView1.Rows.Add(new object[] { descripcion, sensorNumInt, valorCantidad });
 
                 dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
             }
