@@ -38,11 +38,6 @@ namespace ControlSemaforo
                 string sensorNum = partes[1];
                 string valor = partes[2].Trim();
 
-                // Asignación de valores para simular datos
-                //  sensorName = "SON";
-                //    sensorNum = "1";
-                ///valor = "0";
-
                 UpdateDataGridView(sensorName, sensorNum, valor);
             }
             catch (Exception ex)
@@ -55,25 +50,30 @@ namespace ControlSemaforo
         {
             string descripcion = "Desconocido";
             string estado = valor == "1" ? "Encendido/Detectado" : "Apagado/Nodetectado";
+            string unidad = "";
 
             // Verificar si el sensor existe en los datos cargados
             if (data.Sensores.ContainsKey(sensorName))
             {
                 var sensorInfo = data.Sensores[sensorName];
                 descripcion = sensorInfo.Descripcion;
+                unidad = sensorInfo.Unidad;
             }
+
+            string valorCantidad = $"{valor} {unidad}";
+
             if (dataGridView1.InvokeRequired)
             {
                 dataGridView1.BeginInvoke((MethodInvoker)delegate
                 {
-                    valorActual.Text = $"{descripcion} {sensorNum}: {valor}";
-                    dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valor });
+                    valorActual.Text = $"{descripcion} {sensorNum}: {valorCantidad}";
+                    dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valorCantidad });
                 });
             }
             else
             {
-                valorActual.Text = $"{descripcion} {sensorNum}: {valor}";
-                dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valor });
+                valorActual.Text = $"{descripcion} {sensorNum}: {valorCantidad}";
+                dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valorCantidad });
             }
 
         }
