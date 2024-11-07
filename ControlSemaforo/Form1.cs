@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using System.IO.Ports;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace ControlSemaforo
@@ -17,12 +16,12 @@ namespace ControlSemaforo
 
             serialPort = new SerialPort
             {
-                PortName = "COM6", // Cambia esto según tu configuración
+                PortName = "COM11", // Cambia esto según tu configuración
                 BaudRate = 9600,
                 ReadTimeout = 500
             };
             serialPort.DataReceived += SerialPort_DataReceived;
-            //serialPort.Open();
+            serialPort.Open();
 
         }
 
@@ -40,9 +39,9 @@ namespace ControlSemaforo
                 string valor = partes[2].Trim();
 
                 // Asignación de valores para simular datos
-                sensorName = "SON";
-                sensorNum = "1";
-                valor = "0";
+                //  sensorName = "SON";
+                //    sensorNum = "1";
+                ///valor = "0";
 
                 UpdateDataGridView(sensorName, sensorNum, valor);
             }
@@ -63,21 +62,20 @@ namespace ControlSemaforo
                 var sensorInfo = data.Sensores[sensorName];
                 descripcion = sensorInfo.Descripcion;
             }
-
             if (dataGridView1.InvokeRequired)
             {
                 dataGridView1.BeginInvoke((MethodInvoker)delegate
                 {
                     valorActual.Text = $"{descripcion} {sensorNum}: {valor}";
+                    dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valor });
                 });
-
-                dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valor });
             }
             else
             {
                 valorActual.Text = $"{descripcion} {sensorNum}: {valor}";
                 dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valor });
             }
+
         }
 
         private void Hola_Load(object sender, EventArgs e)
