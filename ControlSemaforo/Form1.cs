@@ -68,12 +68,16 @@ namespace ControlSemaforo
                 {
                     valorActual.Text = $"{descripcion} {sensorNum}: {valorCantidad}";
                     dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valorCantidad });
+
+                    dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
                 });
             }
             else
             {
                 valorActual.Text = $"{descripcion} {sensorNum}: {valorCantidad}";
                 dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valorCantidad });
+
+                dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
             }
 
         }

@@ -52,7 +52,7 @@
             groupBox1.Controls.Add(valorActual);
             groupBox1.Location = new Point(27, 45);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(313, 115);
+            groupBox1.Size = new Size(313, 454);
             groupBox1.TabIndex = 9;
             groupBox1.TabStop = false;
             groupBox1.Text = "Valor Actual";
