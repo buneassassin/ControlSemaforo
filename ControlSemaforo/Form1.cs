@@ -72,7 +72,7 @@ namespace ControlSemaforo
             {
                 dataGridView1.BeginInvoke((MethodInvoker)delegate
                 {
-                    valorActual.Text = $"{descripcion} {sensorNum}: {valorCantidad}";
+                    valorActual.Text = $"{descripcion} {sensorNumInt}: {valorCantidad}";
                     dataGridView1.Rows.Add(new object[] { descripcion, sensorNumInt, valorCantidad });
 
                     dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
@@ -80,7 +80,7 @@ namespace ControlSemaforo
             }
             else
             {
-                valorActual.Text = $"{descripcion} {sensorNum}: {valorCantidad}";
+                valorActual.Text = $"{descripcion} {sensorNumInt}: {valorCantidad}";
                 dataGridView1.Rows.Add(new object[] { descripcion, sensorNumInt, valorCantidad });
 
                 dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
