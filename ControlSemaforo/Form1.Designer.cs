@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            historial = new ListBox();
             valorActual = new Label();
             groupBox1 = new GroupBox();
             dataGridView1 = new DataGridView();
@@ -38,15 +37,6 @@
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // historial
-            // 
-            historial.BackColor = SystemColors.Info;
-            historial.FormattingEnabled = true;
-            historial.Location = new Point(444, 45);
-            historial.Name = "historial";
-            historial.Size = new Size(404, 504);
-            historial.TabIndex = 4;
             // 
             // valorActual
             // 
@@ -106,7 +96,6 @@
             ClientSize = new Size(868, 566);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
-            Controls.Add(historial);
             Name = "Hola";
             Text = "Form1";
             Load += Hola_Load;
@@ -117,7 +106,6 @@
         }
 
         #endregion
-        private ListBox historial;
         private Label valorActual;
         private GroupBox groupBox1;
         private DataGridView dataGridView1;
