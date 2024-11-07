@@ -41,7 +41,7 @@
             // valorActual
             // 
             valorActual.AutoSize = true;
-            valorActual.Location = new Point(39, 87);
+            valorActual.Location = new Point(36, 56);
             valorActual.Name = "valorActual";
             valorActual.Size = new Size(50, 20);
             valorActual.TabIndex = 8;
@@ -52,7 +52,7 @@
             groupBox1.Controls.Add(valorActual);
             groupBox1.Location = new Point(27, 45);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(379, 177);
+            groupBox1.Size = new Size(313, 115);
             groupBox1.TabIndex = 9;
             groupBox1.TabStop = false;
             groupBox1.Text = "Valor Actual";
@@ -61,10 +61,10 @@
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Sensor, NumeroSensor, Valor });
-            dataGridView1.Location = new Point(10, 247);
+            dataGridView1.Location = new Point(364, 45);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(428, 188);
+            dataGridView1.Size = new Size(429, 188);
             dataGridView1.TabIndex = 10;
             // 
             // Sensor

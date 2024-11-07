@@ -1,11 +1,6 @@
-using Microsoft.VisualBasic;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace ControlSemaforo
@@ -14,6 +9,7 @@ namespace ControlSemaforo
     {
         SerialPort serialPort;
         const string configFilePath = "datos.json";
+        private Root data;
 
         public Hola()
         {
@@ -43,8 +39,9 @@ namespace ControlSemaforo
                 string sensorNum = partes[1];
                 string valor = partes[2].Trim();
 
-                sensorNum = "SON";
-                sensorName = "1";
+                // Asignación de valores para simular datos
+                sensorName = "SON";
+                sensorNum = "1";
                 valor = "0";
 
                 UpdateDataGridView(sensorName, sensorNum, valor);
@@ -57,22 +54,24 @@ namespace ControlSemaforo
 
         private void UpdateDataGridView(string sensorName, string sensorNum, string valor)
         {
-            string outputMessage = "";
-
-            int sensorIndex = int.Parse(sensorNum);
-
-            string descripcion = data.ContainsKey(sensorName) ? data[sensorName].Descripcion : "Desconocido";
+            string descripcion = "Desconocido";
             string estado = valor == "1" ? "Encendido/Detectado" : "Apagado/Nodetectado";
+
+            // Verificar si el sensor existe en los datos cargados
+            if (data.Sensores.ContainsKey(sensorName))
+            {
+                var sensorInfo = data.Sensores[sensorName];
+                descripcion = sensorInfo.Descripcion;
+            }
 
             if (dataGridView1.InvokeRequired)
             {
-
-                dataGridView1.BeginInvoke((MethodInvoker)delegate { 
+                dataGridView1.BeginInvoke((MethodInvoker)delegate
+                {
                     valorActual.Text = $"{descripcion} {sensorNum}: {valor}";
                 });
 
-                dataGridView1.Rows.Add(new object[] {descripcion, sensorNum, valor });
-
+                dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valor });
             }
             else
             {
@@ -81,58 +80,36 @@ namespace ControlSemaforo
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Hola_Load(object sender, EventArgs e)
         {
-            if (serialPort.IsOpen)
+            try
             {
-                // Envía un comando específico para iniciar el recorrido
-                serialPort.WriteLine("ON"); // Modificar el comando según lo que espera el Arduino
-                MessageBox.Show("Recorrido iniciado.");
+                if (!File.Exists(configFilePath))
+                {
+                    MessageBox.Show("El archivo JSON no existe.");
+                    return;
+                }
+
+                string json = File.ReadAllText(configFilePath);
+
+                if (string.IsNullOrEmpty(json))
+                {
+                    MessageBox.Show("El archivo JSON está vacío.");
+                    return;
+                }
+
+                // Deserializar el JSON en la clase Root
+                data = JsonConvert.DeserializeObject<Root>(json);
+
+                if (data == null || data.Sensores == null)
+                {
+                    MessageBox.Show("Error al deserializar el JSON o no se encontró la información de sensores.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Se produjo un error: {ex.Message}");
             }
         }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (serialPort.IsOpen)
-            {
-                // Envía un comando específico para detener el recorrido
-                serialPort.WriteLine("OFF"); // Modificar el comando según lo que espera el Arduino
-                MessageBox.Show("Recorrido detenido.");
-            }
-        }
-
-        private Dictionary<string, SensorInfo> data;
-
-private void Hola_Load(object sender, EventArgs e)
-{
-    try
-    {
-        if (!File.Exists(configFilePath))
-        {
-            MessageBox.Show("El archivo JSON no existe.");
-            return;
-        }
-
-        string json = File.ReadAllText(configFilePath);
-
-        if (string.IsNullOrEmpty(json))
-        {
-            MessageBox.Show("El archivo JSON está vacío.");
-            return;
-        }
-
-        // Deserializar el JSON a un diccionario de tipo <string, SensorInfo>
-        data = JsonConvert.DeserializeObject<Dictionary<string, SensorInfo>>(json);
-
-        if (data == null)
-        {
-            MessageBox.Show("Error al deserializar el JSON.");
-        }
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show($"Se produjo un error: {ex.Message}");
-    }
-}
     }
 }
