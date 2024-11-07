@@ -28,57 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button2 = new Button();
-            button3 = new Button();
             historial = new ListBox();
-            Acciones = new GroupBox();
             valorActual = new Label();
             groupBox1 = new GroupBox();
-            Acciones.SuspendLayout();
+            dataGridView1 = new DataGridView();
+            Sensor = new DataGridViewTextBoxColumn();
+            NumeroSensor = new DataGridViewTextBoxColumn();
+            Valor = new DataGridViewTextBoxColumn();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.Transparent;
-            button2.Location = new Point(27, 35);
-            button2.Name = "button2";
-            button2.Size = new Size(160, 51);
-            button2.TabIndex = 1;
-            button2.Text = "Encender";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.Transparent;
-            button3.Location = new Point(208, 35);
-            button3.Name = "button3";
-            button3.Size = new Size(160, 51);
-            button3.TabIndex = 2;
-            button3.Text = "Apagar";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
             // 
             // historial
             // 
             historial.BackColor = SystemColors.Info;
             historial.FormattingEnabled = true;
-            historial.Location = new Point(896, 69);
+            historial.Location = new Point(444, 45);
             historial.Name = "historial";
-            historial.Size = new Size(414, 684);
+            historial.Size = new Size(404, 504);
             historial.TabIndex = 4;
-            // 
-            // Acciones
-            // 
-            Acciones.Controls.Add(button3);
-            Acciones.Controls.Add(button2);
-            Acciones.Location = new Point(59, 69);
-            Acciones.Name = "Acciones";
-            Acciones.Size = new Size(395, 177);
-            Acciones.TabIndex = 7;
-            Acciones.TabStop = false;
-            Acciones.Text = "Acciones";
             // 
             // valorActual
             // 
@@ -92,37 +60,69 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(valorActual);
-            groupBox1.Location = new Point(500, 69);
+            groupBox1.Location = new Point(27, 45);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(379, 177);
             groupBox1.TabIndex = 9;
             groupBox1.TabStop = false;
             groupBox1.Text = "Valor Actual";
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Sensor, NumeroSensor, Valor });
+            dataGridView1.Location = new Point(10, 247);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(428, 188);
+            dataGridView1.TabIndex = 10;
+            // 
+            // Sensor
+            // 
+            Sensor.HeaderText = "Sensor";
+            Sensor.MinimumWidth = 6;
+            Sensor.Name = "Sensor";
+            Sensor.Width = 125;
+            // 
+            // NumeroSensor
+            // 
+            NumeroSensor.HeaderText = "Número de Sensor";
+            NumeroSensor.MinimumWidth = 6;
+            NumeroSensor.Name = "NumeroSensor";
+            NumeroSensor.Width = 125;
+            // 
+            // Valor
+            // 
+            Valor.HeaderText = "Valor";
+            Valor.MinimumWidth = 6;
+            Valor.Name = "Valor";
+            Valor.Width = 125;
+            // 
             // Hola
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ScrollBar;
-            ClientSize = new Size(1349, 796);
-            ControlBox = false;
+            ClientSize = new Size(868, 566);
+            Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
-            Controls.Add(Acciones);
             Controls.Add(historial);
             Name = "Hola";
             Text = "Form1";
-            Acciones.ResumeLayout(false);
+            Load += Hola_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-        private Button button2;
-        private Button button3;
         private ListBox historial;
-        private GroupBox Acciones;
         private Label valorActual;
         private GroupBox groupBox1;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn Sensor;
+        private DataGridViewTextBoxColumn NumeroSensor;
+        private DataGridViewTextBoxColumn Valor;
     }
 }

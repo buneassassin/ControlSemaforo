@@ -3,15 +3,17 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.Json;
+
 
 namespace ControlSemaforo
 {
     public partial class Hola : Form
     {
         SerialPort serialPort;
-        List<SemaforoConfig> semaforosConfig;
-        const string configFilePath = "semaforosConfig.json";
+        const string configFilePath = "datos.json";
 
         public Hola()
         {
@@ -19,12 +21,13 @@ namespace ControlSemaforo
 
             serialPort = new SerialPort
             {
-                PortName = "COM11", // Cambia esto según tu configuración
+                PortName = "COM6", // Cambia esto según tu configuración
                 BaudRate = 9600,
                 ReadTimeout = 500
             };
             serialPort.DataReceived += SerialPort_DataReceived;
-            serialPort.Open();
+            //serialPort.Open();
+
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -32,14 +35,19 @@ namespace ControlSemaforo
             try
             {
                 string message = serialPort.ReadLine();
-                string[] partes =  message.Split(':');
+                string[] partes = message.Split(':');
+
+                if (partes.Length < 3) return;
 
                 string sensorName = partes[0];
                 string sensorNum = partes[1];
                 string valor = partes[2].Trim();
 
+                sensorNum = "SON";
+                sensorName = "1";
+                valor = "0";
 
-                UpdateListBox(sensorName, sensorNum, valor);
+                UpdateDataGridView(sensorName, sensorNum, valor);
             }
             catch (Exception ex)
             {
@@ -47,71 +55,29 @@ namespace ControlSemaforo
             }
         }
 
-        private void UpdateListBox(string sensorName, string sensorNum, string valor)
+        private void UpdateDataGridView(string sensorName, string sensorNum, string valor)
         {
             string outputMessage = "";
 
             int sensorIndex = int.Parse(sensorNum);
 
-            if (sensorName.StartsWith("LE"))
+            string descripcion = data.ContainsKey(sensorName) ? data[sensorName].Descripcion : "Desconocido";
+            string estado = valor == "1" ? "Encendido/Detectado" : "Apagado/Nodetectado";
+
+            if (dataGridView1.InvokeRequired)
             {
 
-                string color = sensorName switch
-                {
-                    "LER" => "Rojo",
-                    "LEV" => "Verde",
-                    "LEA" => "Amarillo",
-                    _ => "Desconocido"
-                };
-
-                string estado = valor == "1" ? "encendido" : "apagado";
-
-                outputMessage = $"Semaforo {sensorIndex + 1} - LED {color} está {estado}.";
-            }else if(sensorName == "SON"){
-                string estado = valor == "1" ? "detectado" : "no detectado";
-                outputMessage = $"Sensor ultrasónico {sensorIndex + 1} - {estado}.";
-            }
-
-            if (historial.InvokeRequired)
-            {
-                historial.BeginInvoke((MethodInvoker)delegate
-                {
-                    valorActual.Text = outputMessage;
-                    AddItemToListBox(outputMessage);
+                dataGridView1.BeginInvoke((MethodInvoker)delegate { 
+                    valorActual.Text = $"{descripcion} {sensorNum}: {valor}";
                 });
+
+                dataGridView1.Rows.Add(new object[] {descripcion, sensorNum, valor });
+
             }
             else
             {
-                valorActual.Text = outputMessage;
-                AddItemToListBox(outputMessage);
-            }
-        }
-
-        private void AddItemToListBox(string message)
-        {
-            historial.Items.Add(message);
-            historial.Items.Add("---------------------------------------------------------------");
-
-            // Desplaza automaticamente el final
-            historial.TopIndex = historial.Items.Count - 1;
-        }
-
-     
-
-        private void SendConfigToArduino()
-        {
-            if (serialPort.IsOpen)
-            {
-                string jsonConfig = JsonConvert.SerializeObject(semaforosConfig);
-                serialPort.WriteLine("CONFIG: " + jsonConfig);
-            }
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.Close();
+                valorActual.Text = $"{descripcion} {sensorNum}: {valor}";
+                dataGridView1.Rows.Add(new object[] { descripcion, sensorNum, valor });
             }
         }
 
@@ -132,15 +98,41 @@ namespace ControlSemaforo
                 // Envía un comando específico para detener el recorrido
                 serialPort.WriteLine("OFF"); // Modificar el comando según lo que espera el Arduino
                 MessageBox.Show("Recorrido detenido.");
-                button2.Enabled = true;
             }
         }
 
-    }
+        private Dictionary<string, SensorInfo> data;
 
-    public class SemaforoConfig
+private void Hola_Load(object sender, EventArgs e)
+{
+    try
     {
-        public int Id { get; set; }
-        public int[] Pins { get; set; }
+        if (!File.Exists(configFilePath))
+        {
+            MessageBox.Show("El archivo JSON no existe.");
+            return;
+        }
+
+        string json = File.ReadAllText(configFilePath);
+
+        if (string.IsNullOrEmpty(json))
+        {
+            MessageBox.Show("El archivo JSON está vacío.");
+            return;
+        }
+
+        // Deserializar el JSON a un diccionario de tipo <string, SensorInfo>
+        data = JsonConvert.DeserializeObject<Dictionary<string, SensorInfo>>(json);
+
+        if (data == null)
+        {
+            MessageBox.Show("Error al deserializar el JSON.");
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Se produjo un error: {ex.Message}");
+    }
+}
     }
 }
